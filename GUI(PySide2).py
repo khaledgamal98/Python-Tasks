@@ -61,6 +61,7 @@ class GUI(QWidget):
         return int(self.minimum_line_edit.text())
     def maximum_data(self):
         return int(self.maximum_line_edit.text())
+
     def validations(self):
         equation = GUI.equation_data()
         global total_size_cap
@@ -74,14 +75,14 @@ class GUI(QWidget):
         global division
         global array_of_multipliers
         global total_size_multipliers
-        list_of_coefficients=[]
-        division=0
-        array_index_absolute_values=[]
-        array1=[]
-        array2=[]
+        list_of_coefficients = []
+        division = 0
+        array_index_absolute_values = []
+        array1 = []
+        array2 = []
         q = 0
         m = 0
-        sign=0
+        sign = 0
         array_of_multipliers = []
         equal_sign = 0
         total_size_multipliers = 0
@@ -100,7 +101,7 @@ class GUI(QWidget):
         list_of_strings = []
         for i in range(len(equation)):
             u = i
-            if (equation[i] == '*' or equation[i] == '/') and equation[i+1]=='x':
+            if (equation[i] == '*' or equation[i] == '/') and equation[i + 1] == 'x':
                 t = 0
                 while t < u:
                     array_absolute_values.append(equation[t])
@@ -109,7 +110,8 @@ class GUI(QWidget):
                         if equation[t - 1] == '^':
                             # as if the power has a sign +ve or negative i will not take that sign into consideration
                             continue
-                        array_index_absolute_values.append(equation.index(array_absolute_values[len(array_absolute_values) - 1]))
+                        array_index_absolute_values.append(
+                            equation.index(array_absolute_values[len(array_absolute_values) - 1]))
                         # As if there is any absolute value in the middle term, before '*' or '/' sign there will be 2 plus sign if i assign the index of each one into list and make while loop i will append the value between two plus sign and this will be the coefficient
                         del array_absolute_values[:]
                         n = array_index_absolute_values[len(array_index_absolute_values) - 2] + 1
@@ -129,7 +131,7 @@ class GUI(QWidget):
                             continue
                         del array_absolute_values[:]
                         coefficients.append(summation_absolute_values)
-                        total_cap=+1           # To add 1 cap as i compare number of caps to number of pluses
+                        total_cap = +1  # To add 1 cap as i compare number of caps to number of pluses
                 array_of_multipliers.append(equation[i])
                 last_slash = 0
                 sign = 0
@@ -146,10 +148,12 @@ class GUI(QWidget):
                         v = 0
                         # number_of_slash+=1
                         while v < i - r:
-                            list_of_coefficients.append(equation[v])  # as if there is fraction before multiplier or divider i will take the value before '/' sign and put it into array and then take the float of this array
+                            list_of_coefficients.append(equation[
+                                                            v])  # as if there is fraction before multiplier or divider i will take the value before '/' sign and put it into array and then take the float of this array
                             v += 1
                             if equation[v] == '+' or equation[v] == '-':
-                                del list_of_coefficients[:]  # as if the fraction came in any term '/' sign will have '+' or '-' before it so i delete all the values before '+' or '-'
+                                del list_of_coefficients[
+                                    :]  # as if the fraction came in any term '/' sign will have '+' or '-' before it so i delete all the values before '+' or '-'
                         last_slash += 1  # as the last slash will be came first as i check for i-r not r and if there is more than 1 one slash, i want the last one only
                         array_before_sign = ''
                         for g in range(len(list_of_coefficients)):
@@ -160,7 +164,8 @@ class GUI(QWidget):
                         del list_of_coefficients[:]
                         index = equation.index(equation[i - r])
                         while index < i:
-                            list_of_coefficients.append(equation[index])  # as equation.index(equation[i-r]) will give me the index of '/' sign then adding what after it into array and converting it into float
+                            list_of_coefficients.append(equation[
+                                                            index])  # as equation.index(equation[i-r]) will give me the index of '/' sign then adding what after it into array and converting it into float
                             index += 1
                             if equation[index] == '/':
                                 del list_of_coefficients[:]
@@ -199,8 +204,8 @@ class GUI(QWidget):
                     continue
                 else:
                     coefficients.append(summation_of_coefficients)
-            #if equation[i]== '/' and equation[i+1] != 'x':
-                #extra_sign+=1
+                    # if equation[i]== '/' and equation[i+1] != 'x':
+                    # extra_sign+=1
             if equation[i] == '^':
                 array_of_caps.append(equation[i])
                 if equation[i - 1] == equation[0]:  # input: x^2+..
@@ -215,6 +220,8 @@ class GUI(QWidget):
                 wrong_sign += 1
             if equation[i] == '+' or equation[i] == '-':
                 if equation[i] == equation[0]:
+                    continue
+                if equation[i - 1] == '^':  # 3*x^-2+5*x^1+5
                     continue
                 array_of_plus.append(equation[i])
                 p = 0
@@ -253,13 +260,13 @@ class GUI(QWidget):
                 powers.append(summation_of_powers)
                 q = 0
                 m = 0
-                if equation[i-1] == equation[0] == 'x':              # input: x+..
-                    num_of_multipliers+=1
-                    total_cap+=1
+                if equation[i - 1] == equation[0] == 'x':  # input: x+..
+                    num_of_multipliers += 1
+                    total_cap += 1
                     coefficients.append('1')
-                elif equation[i - 2] == equation[0]=='x':  # input: -x+..
-                    num_of_multipliers+=1
-                    total_cap+=1
+                elif equation[i - 2] == equation[0] == '-':  # input: -x+..
+                    num_of_multipliers += 1
+                    total_cap += 1
                     coefficients.append('-1')
                 elif equation[i - 2] == '+' and equation[i - 1] == 'x':  # input: +x+...
                     num_of_multipliers += 1
@@ -278,9 +285,10 @@ class GUI(QWidget):
         n = 1
         while n < len(equation):
             array_of_coefficients.append(equation[len(equation) - n])
-            list_of_strings.append(equation[len(equation) - n])  # as if the last term is x^2 i take 2 as power of last term
+            list_of_strings.append(
+                equation[len(equation) - n])  # as if the last term is x^2 i take 2 as power of last term
             n += 1
-            if equation[len(equation)-n] == '=':
+            if equation[len(equation) - n] == '=':
                 break
             if equation[len(equation) - n] == '^':  # in case the input is in the form of: 5*x^5+4*x+5*x^0
                 list_of_strings.reverse()
@@ -292,12 +300,14 @@ class GUI(QWidget):
                 # total_cap=total_cap-1
                 del array_of_coefficients[:]
                 break
-            if equation[len(equation) - n] == '*' or equation[len(equation) - n] == '/':  # in case the input is in the form of: 5*x^2+4*x
+            if equation[len(equation) - n] == '*' or equation[
+                        len(equation) - n] == '/':  # in case the input is in the form of: 5*x^2+4*x
                 # extra_sign+=1
                 powers.append('1')
                 del array_of_coefficients[:]
                 break
-            if equation[len(equation) - n] == '+' or equation[len(equation) - n] == '-':  # to get the coefficients of last term: 5*x^2+4*x(+10.3)
+            if equation[len(equation) - n] == '+' or equation[
+                        len(equation) - n] == '-':  # to get the coefficients of last term: 5*x^2+4*x(+10.3)
                 array_of_coefficients.append(equation[len(equation) - n])
                 array_of_coefficients.reverse()  # as the list will be reversed; e.g. ['0' , '1' , '+' ] as the last element will be put first so i reversed it in order to manage to add elements
                 summation_last_term = ''
@@ -306,9 +316,10 @@ class GUI(QWidget):
                 del array_of_coefficients[:]
                 # summation_last_term
                 coefficients.append(summation_last_term)
-                if equation[len(equation)-(n+1)] == '^':           #  in case of the input is 3*x+4+5*x^-2, don't take the coefficient if equation[len(equation) - (n+1) ] == '^'
+                if equation[len(equation) - (
+                    n + 1)] == '^':  # in case of the input is 3*x+4+5*x^-2, don't take the coefficient if equation[len(equation) - (n+1) ] == '^'
                     coefficients.pop()
-                    list_of_strings.append(equation[len(equation)-n]) # to take a sign with the power
+                    list_of_strings.append(equation[len(equation) - n])  # to take a sign with the power
                     list_of_strings.reverse()
                     summation_power_last_term = ''
                     for w in range(len(list_of_strings)):
@@ -316,7 +327,6 @@ class GUI(QWidget):
                     del list_of_strings[:]
                     powers.append(summation_power_last_term)
                 break
-
 
         if equation[len(equation) - 2] == equation[1] == '^':  # input: x^2
             total_cap = total_cap - 1
@@ -332,7 +342,7 @@ class GUI(QWidget):
     def plot(self):
         GUI.validations()
         global complex_value
-        complex_value=0
+        complex_value = 0
         global y
         global sum_of_coefficients
         global x
@@ -342,20 +352,21 @@ class GUI(QWidget):
         maxi = GUI.maximum_data()
         x = list(range(mini, maxi + 1))
         q = 0
-        multipliers=array_of_multipliers
+        multipliers = array_of_multipliers
         if len(coefficients) > len(multipliers):
-            difference= len(coefficients)-len(multipliers)
-            c=0
+            difference = len(coefficients) - len(multipliers)
+            c = 0
             while c < difference:
                 multipliers.append("")
-                c+=1
+                c += 1
         # as i will check for array_of_multipliers[i] and inrease it by 1 like j but array of coefficients is more 1 element than array_of_multipliers, so if i dont't add one element to that array i will exceed the index
         while q < len(x):
             j = 0
             i = 0
             # b = list_of_strings
             b = powers
-            if len(coefficients) > len(b):  # to make list_of_strings of the same length of coefficients, so if the difference between them is one so zero is added to list_of_strings
+            if len(coefficients) > len(
+                    b):  # to make list_of_strings of the same length of coefficients, so if the difference between them is one so zero is added to list_of_strings
                 difference_of_lengths = len(coefficients) - len(b)
                 k = 0
                 while k < difference_of_lengths:
@@ -374,19 +385,20 @@ class GUI(QWidget):
             del y[:]
             sum_of_coefficients.append(summation)
             q = q + 1
-        #array_of_multipliers.pop() # to erase the addedd element to the list
+            # array_of_multipliers.pop() # to erase the addedd element to the list
+
     def message_box(self):
         GUI.validations()
         GUI.plot()
         if equal_sign != 0:
-            QMessageBox.warning(self, "Warning", "You Can't use equal sign, The equation should be in that form: 5*x^2+3*x+5")
+            QMessageBox.warning(self, "Warning","You Can't use equal sign, The equation should be in that form: 5*x^2+3*x+5")
         if wrong_sign != 0:
-            QMessageBox.warning(self,"Warning", "You have to use '/' as a division sign")
+            QMessageBox.warning(self, "Warning", "You have to use '/' as a division sign")
         if total_size_cap < len(array_of_plus):
-            QMessageBox.warning(self,"Warning", "You have to use '^' as a power sign")
+            QMessageBox.warning(self, "Warning", "You have to use '^' as a power sign")
         if total_size_multipliers < len(array_of_plus):
             QMessageBox.warning(self, "Warning", "You have to write '*' or '/'; e.g. 5*x^2")
-        if total_size_cap == len(array_of_plus) and total_size_multipliers == len(array_of_plus) and wrong_sign == 0 and equal_sign==0 :
+        if total_size_cap == len(array_of_plus) and total_size_multipliers == len(array_of_plus) and wrong_sign == 0 and equal_sign == 0:
             plt.plot(x, sum_of_coefficients, label='Quadratic')
             plt.show()
 QApplication_object=QApplication([])
