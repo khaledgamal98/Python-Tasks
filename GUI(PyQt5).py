@@ -59,7 +59,6 @@ class GUI(QWidget):
         return int(self.minimum_line_edit.text())
     def maximum_data(self):
         return int(self.maximum_line_edit.text())
-
     def validations(self):
         equation = GUI.equation_data()
         global total_size_cap
@@ -187,8 +186,7 @@ class GUI(QWidget):
                 while p < u:
                     array_of_coefficients.append(equation[p])
                     p += 1
-                    if equation[p] == '+' or equation[
-                        p] == '-':  # to remove the elements before '+' or '-' as the second term coefficient will be lied betweem '+' and '*'
+                    if equation[p] == '+' or equation[p] == '-':  # to remove the elements before '+' or '-' as the second term coefficient will be lied betweem '+' and '*'
                         del array_of_coefficients[:]
                 summation_of_coefficients = ''
                 for o in range(len(array_of_coefficients)):
@@ -215,8 +213,10 @@ class GUI(QWidget):
             if equation[i] == '+' or equation[i] == '-':
                 if equation[i] == equation[0]:
                     continue
+                if equation[i - 1] == '^':  # 3*x^-2+5*x^1+5
+                    continue
                 array_of_plus.append(equation[i])
-                p = 0
+                p=0
                 while p < u:
                     list_of_strings.append(equation[p])
                     p += 1
@@ -256,7 +256,7 @@ class GUI(QWidget):
                     num_of_multipliers+=1
                     total_cap+=1
                     coefficients.append('1')
-                elif equation[i - 2] == equation[0]=='x':  # input: -x+..
+                elif equation[i - 2] == equation[0]=='-':  # input: -x+..
                     num_of_multipliers+=1
                     total_cap+=1
                     coefficients.append('-1')
@@ -388,6 +388,8 @@ class GUI(QWidget):
         if total_size_cap == len(array_of_plus) and total_size_multipliers == len(array_of_plus) and wrong_sign == 0 and equal_sign==0 :
             plt.plot(x, sum_of_coefficients, label='Quadratic')
             plt.show()
+
+
 QApplication_object=QApplication([])
 GUI=GUI()
 sys.exit(QApplication_object.exec())
